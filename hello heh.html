@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>An Açaí Affair</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9; /* Light grey background */
+            color: #333333; /* Dark grey text */
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center; 
+        }
+
+        header {
+            background-color: #00A288; /* Teal color */
+            padding: 10px 0;
+        }
+
+        header img {
+            width: 150px; /* Adjust the size of the logo */
+            height: auto;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #ffffff; /* White */
+            font-weight: bold;
+        }
+
+        section {
+            padding: 50px 0;
+            background-size: cover; /* Ensure the background covers the entire section */
+            background-position: center; /* Center the background image */
+            color: #ffffff; /* White text */
+        }
+
+        #home {
+            background-image: url('acai5.jpg'); /* Add the first background image */
+        }
+
+        #menu {
+            background-image: url('acai4.png'); /* Add the second background image */
+        }
+
+        h2 {
+            font-size: 2em;
+        }
+
+        p {
+            font-size: 1.2em;
+        }
+
+        #home h2 {
+            border: 2px solid #ffffff; /* Pink border */
+            padding: 10px; /* Add padding */
+            background-color: #FFAEDA;
+        }
+
+        #home p {
+            border: 1px solid #ffffff; /* Pink border */
+            padding: 10px; /* Add padding */
+            background-color: #FFAEDA;
+        }
+
+        .order-button {
+            background-color: #00A288;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .popup {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+            padding-top: 60px; /* 60px from the top */
+        }
+
+        .popup-content {
+            background-color: #00A288; /* Teal background color */
+            margin: 5% auto; /* 5% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+            text-align: center; /* Center-align the text */
+            border-radius: 10px; /* Rounded corners */
+            color: #ffffff; /* White text */
+            font-family: 'Poppins', sans-serif; /* Poppins font */
+        }
+
+        .popup-content button {
+            background-color: #ffffff; /* White background */
+            color: #00A288; /* Teal text */
+            border: none;
+            padding: 10px 15px; /* Increase padding for a larger button */
+            font-size: 1em; /* Increase font size */
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 10px; /* Space between buttons */
+            font-family: 'Poppins', sans-serif; /* Poppins font */
+            font-weight: bold;
+            transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+        }
+
+        .popup-content button:hover {
+            background-color: #00A288; /* Teal background on hover */
+            color: #ffffff; /* White text on hover */
+        }
+
+        .close {
+            color: #ffffff;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        section:last-child {
+            margin-bottom: 80px; /* Adjust as needed to create space between the button and footer */
+        }
+
+        .menu-item {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .menu-item p {
+            margin: 5px 0;
+        }
+
+        .menu-item .caption {
+            font-size: 0.9em;
+            color: #eeeeee; /* Light grey color for caption */
+        }
+
+        .price {
+            border: 1px solid #ffffff; /* Dark grey border */
+            padding: 2px 5px; /* Adjust padding as needed */
+            border-radius: 3px; /* Rounded corners */
+            background-color: #00A288; /* White background for contrast */
+            color: #ffffff; /* Dark grey text color */
+        }
+
+        .cart-item {
+            text-align: left;
+            margin-bottom: 20px;
+            color: #000; /* Black text */
+        }
+
+        .cart-item p {
+            margin: 5px 0;
+        }
+
+        .main-text {
+            font-weight: bold;
+        }
+
+        .small-text {
+            font-size: 0.8em;
+            color: #cccccc;
+        }
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffff; /* Teal background */
+            color: #00A288; /* White text */
+            padding: 15px;
+            border-radius: 5px;
+            z-index: 999; /* Ensure it's on top of other elements */
+        }
+        .menu-icon {
+            width: 30px; /* Adjust the size as needed */
+            height: auto;
+            margin-right: 10px; /* Space between the image and the text */
+            vertical-align: middle; /* Align the image vertically with the text */
+        }
+
+        .menu-item {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .menu-item .menu-icon {
+            width: 40px; /* Adjust the size as needed */
+            height: auto;
+            margin-left: 10px; /* Space between the image and the text */
+            vertical-align: middle; /* Align the image vertically with the text */
+        }
+
+
+        .total-amount {
+            border-top: 5px solid #ccc; /* Add top border */
+            padding-top: 5px; /* Add some padding for spacing */
+        }
+
+        .option-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+        }
+
+        .option-buttons button {
+            background-color: #ffffff;
+            color: #00A288;
+            border: 1px solid #00A288;
+            padding: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .option-buttons button:hover {
+            background-color: #00A288;
+            color: #ffffff;
+        }
+        
+        /* CSS for the DIY Acai options */
+        ul {
+            list-style-type: none; /* Remove bullet points */
+            padding: 0;
+        }
+
+        li {
+            display: flex; /* Use flexbox to align items */
+            justify-content: space-between; /* Align items to the right */
+            margin-bottom: 5px; /* Add some spacing between options */
+        }
+
+        label {
+            flex-grow: 1; /* Allow the label to take up remaining space */
+        }
+
+        input[type="radio"] {
+            margin-left: 10px; /* Add some spacing between radio button and label */
+        }
+
+        /* Remove bullet points beside the "Drizzle" options */
+        #popup-diy-acai input[type="checkbox"][name="drizzle"] {
+            list-style-type: none;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <img src="logo1.jpg" alt="An Açaí Affair">
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#menu">Menu</a></li>
+                    <li><a href="javascript:void(0);" onclick="openCart()">Cart (<span id="cart-count">0</span>)</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <section id="home">
+        <div class="container">
+            <h2>Welcome to An Açaí Affair</h2>
+            <p>Delicious and nutritious Açaí bowls made with love!</p>
+        </div>
+    </section>
+
+    <section id="menu">
+        <div class="container">
+            <h2>Our Menu</h2>
+            <button class="order-button" onclick="openPopup()">Order Here</button>
+        </div>
+    </section>
+    
+        <div id="popup" class="popup">
+            <div class="popup-content">
+                <span class="close" onclick="closePopup()">&times;</span>
+                <h2>Options Available</h2>
+                <button onclick="selectOption('Toast')">Toast</button>
+                <button onclick="selectOption('Açaí')">Açaí</button>
+                <button onclick="selectOption('Smoothies & Drinks')">Smoothies & Drinks</button>
+                <button onclick="selectOption('DIY Açaí')">DIY Açaí</button>
+            </div>
+        </div>
+    
+        <div id="menu-popup" class="popup">
+            <div class="popup-content" id="menu-content">
+                <span class="close" onclick="closeMenuPopup()">&times;</span>
+                <h2>Menu Items</h2>
+                <div id="menu-items"></div>
+            </div>
+        </div>
+    
+        <div id="cart-popup" class="popup">
+            <div class="popup-content" id="cart-content">
+                <span class="close" onclick="closeCartPopup()">&times;</span>
+                <h2>Your Cart</h2>
+                <div id="cart-items"></div>
+                <button onclick="openCheckout()">Checkout</button>
+            </div>
+        </div>
+
+        <!-- Create a new popup for the checkout options -->
+        <div id="checkout-popup" class="popup">
+            <div class="popup-content">
+                <span class="close" onclick="closeCheckout()">&times;</span>
+                <h2>Choose Payment Method</h2>
+                <button onclick="processPayment('Paynow')">Paynow</button>
+                <button onclick="processPayment('Credit Card')">Credit Card</button>
+                <button onclick="processPayment('Cash at Counter')">Cash at Counter</button>
+            </div>
+        </div>
+
+        <!-- Popup for DIY Acai options -->
+        <div id="popup-diy-acai" class="popup">
+            <div class="popup-content">
+                <!-- Content will be dynamically generated by JavaScript -->
+            </div>
+        </div>
+
+            
+        <script>
+            // Cart object
+            let cart = [];
+        
+            // Function to open the popup
+            function openPopup() {
+                document.getElementById("popup").style.display = "block";
+            }
+        
+            // Function to close the popup
+            function closePopup() {
+                document.getElementById("popup").style.display = "none";
+            }
+        
+            // Function to open the menu popup
+            function openMenuPopup() {
+                document.getElementById("menu-popup").style.display = "block";
+            }
+        
+            // Function to close the menu popup
+            function closeMenuPopup() {
+                document.getElementById("menu-popup").style.display = "none";
+            }
+        
+            // Function to open the cart popup
+            function openCart() {
+                document.getElementById("cart-popup").style.display = "block";
+                displayCart();
+            }
+        
+            // Function to close the cart popup
+            function closeCartPopup() {
+                document.getElementById("cart-popup").style.display = "none";
+            }
+        
+            // Function to handle option selection
+            function selectOption(option) {
+                let items = '';
+                if (option === 'Toast') {
+                    items = `
+                        <div class="menu-item">
+                            <p>Berry Crunchy <span class="price">$8.90</span></p>
+                            <p class="caption">cookie butter spread, strawberries & blueberries, topped with crunchy almond flakes.</p>
+                            <button onclick="addToCart('Berry Crunchy', 8.90)">Add to Cart</button>
+                        </div>
+                        <div class="menu-item">
+                            <p>You Butter Believe <span class="price">$8.90</span></p>
+                            <p class="caption">peanut butter spread, banana, blueberries & a light drizzle of honey, topped with cacao nibs.</p>
+                            <button onclick="addToCart('You Butter Believe', 8.90)">Add to Cart</button>
+                        </div>
+                        <div class="menu-item">
+                            <p>Bravocado <span class="price">$9.90</span></p>
+                            <p class="caption">almond butter spread, fresh avocado & a light drizzle of honey, topped with chia seeds & a sprinkle of salt.</p>
+                            <button onclick="addToCart('Bravocado', 9.90)">Add to Cart</button>
+                        </div>`;
+                } else if (option === 'Açaí') {
+                    items = `
+                    <div class="menu-item">
+                        <p class="main-text">Triple A</p>
+                        <img src="Acai Triple A.png" class="menu-icon" alt="Triple A Image">
+                        <p class="small-text">açaí with fresh fruits, granola, nuts & superfoods</p>
+                        <button onclick="selectSize('Triple A')">Select Size</button>
+                    </div>
+
+                    <div class="menu-item">
+                        <p class="main-text">Nutty Party</p>
+                        <img src="Acai Nutty Party.png" class="menu-icon" alt="Nutty Party Image">
+                        <p class="small-text">açaí with banana, granola, nuts & cacao nibs</p>
+                        <button onclick="selectSize('Nutty Party')">Select Size</button>
+                    </div>
+
+                    <div class="menu-item">
+                        <p class="main-text">Greek Physique</p>
+                        <img src="Acai Greek Physique.png" class="menu-icon" alt="Greek Physique Image">
+                        <p class="small-text">açaí with yogurt, fresh fruits, granola, nuts & superfoods</p>
+                        <button onclick="selectSize('Greek Physique')">Select Size</button>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <p class="main-text">Ch-Ch-Ch-Chia</p>
+                        <img src="Acai Ch-Ch-Ch-Chia.png" class="menu-icon" alt="Ch-Ch-Ch-Chia Image">
+                        <p class="small-text">açaí with chia pudding, fresh fruits, granola, nuts & superfoods</p>
+                        <button onclick="selectSize('Ch-Ch-Ch-Chia')">Select Size</button>
+                    </div>
+                
+                    <div class="menu-item">
+                        <p class="main-text">Coco Glow</p>
+                        <img src="Acai Coco Glow.png" class="menu-icon" alt="Coco Glow Image">
+                        <p class="small-text">açaí with coconut sorbet, fresh fruits, granola, nuts & superfoods</p>
+                        <button onclick="selectSize('Coco Glow')">Select Size</button>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <p class="main-text">Mango Tango</p>
+                        <img src="Acai Mango Tango.png" class="menu-icon" alt="Mango Tango Image">
+                        <p class="small-text">açaí with mango sorbet, fresh fruits, granola, nuts & superfoods</p>
+                        <button onclick="selectSize('Mango Tango')">Select Size</button>
+                    </div>
+
+                    <div class="menu-item">
+                        <p class="main-text">Hoe For Avo</p>
+                        <img src="Acai Hoe For Avo.png" class="menu-icon" alt="Hoe For Avo Image">
+                        <p class="small-text">açaí with avocado coconut sorbet, fresh fruits, granola, nuts & superfoods</p>
+                        <button onclick="selectSize('Hoe For Avo')">Select Size</button>
+                        </div>
+                        
+                    <div class="menu-item">
+                        <p class="main-text">Berried Alive</p>
+                        <img src="Acai Berried Alive.png" class="menu-icon" alt="Berried Alive Image">
+                        <p class="small-text">açaí with strawberry coconut sorbet, fresh fruits, granola, nuts & superfoods</p>
+                        <button onclick="selectSize('Berried Alive')">Select Size</button>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <p class="main-text">Love Me Lychee</p>
+                        <img src="Acai Love Me Lychee.png" class="menu-icon" alt="Love Me Lychee Image">
+                        <p class="small-text">açaí with blue pea lychee sorbet, fresh fruits, granola, nuts & superfoods</p>
+                        <button onclick="selectSize('Love Me Lychee')">Select Size</button>
+                    </div>
+    
+                    <div class="menu-item">
+                        <p class="main-text">Feeling Grape</p>
+                        <img src="Acai Feeling Grape.png" class="menu-icon" alt="Feeling Grape Image">
+                        <p class="small-text">açaí with muscat grape, fresh fruits, granola, nuts & superfoods</p>
+                        <button onclick="selectSize('Feeling Grape')">Select Size</button>
+                    </div>
+                    
+                    <div class="menu-item">
+                        <p class="main-text">Drivin Me Nuts</p>
+                        <img src="Acai Drivin Me Nuts.png" class="menu-icon" alt="Drivin Me Nuts Image">
+                        <p class="small-text">açaí with chocolate peanut butter banana sorbet, fresh fruits, granola, nuts & superfoods</p>
+                        <button onclick="selectSize('Drivin Me Nuts')">Select Size</button>
+                    </div>
+    
+                    <div class="menu-item">
+                        <p class="main-text">Berry Me Bliss</p>
+                        <img src="Acai Berry Me Bliss.png" class="menu-icon" alt="Berry Me Bliss Image">
+                        <p class="small-text">açaí with mixed berries sorbet, fresh fruits, granola, nuts & superfoods</p>
+                        <button onclick="selectSize('Berry Me Bliss')">Select Size</button>
+                    </div>`;
+        
+                } else if (option === 'Smoothies & Drinks') {
+                    items = `
+                    <div class="menu-item">
+                        <p class="main-text">Aloha Açaí</p>
+                        <p class="small-text">açaí, strawberries, banana & coconut water</p>
+                        <button onclick="selectSize('Aloha Açaí')">Select Size</button>
+                    </div>
+                    <div class="menu-item">
+                        <p class="main-text">Heres My Abs</p>
+                        <p class="small-text">açaí, chocolate protein, banana, peanut butter, cacao nibs & almond milk</p>
+                        <button onclick="selectSize('Heres My Abs')">Select Size</button>
+                    </div>
+                    <div class="menu-item">
+                        <p class="main-text">Coco Splash</p>
+                        <p class="small-text">chilled coconut water & chia seeds</p>
+                        <button onclick="selectSize('Coco Splash')">Select Size</button>
+                    </div>`;
+                
+                } else if (option ==='DIY Açaí') {
+                    items = `
+                    <div class="menu-item">
+                        <p class="main-text">DIY Açaí</p>
+                        <p class="small-text">Make your own Açaí!</p>
+                        <button onclick="selectSize('DIY Açaí')">Select Size</button>
+                    </div>`;
+        }
+
+        document.getElementById("menu-items").innerHTML = items;
+        closePopup();
+        openMenuPopup();
+    }
+
+    // Function to select size
+    function selectSize(itemName) {
+        let sizes = '';
+        if (itemName === 'Aloha Açaí' || itemName === 'Heres My Abs') {
+                sizes = `
+                    <div class="menu-item">
+                        <p>${itemName} - Regular<span class="price">$9.90</span></p>
+                        <button onclick="addToCart('${itemName} - Regular', 9.90)">Add to Cart</button>
+                    </div>
+                    <div class="menu-item">
+                        <p>${itemName} - Large<span class="price">$11.90</span></p>
+                        <button onclick="addToCart('${itemName} - Large', 11.90)">Add to Cart</button>
+                    </div>`;
+        } else if (itemName === 'Coco Splash') {
+                sizes = `
+                    <div class="menu-item">
+                        <p>${itemName} - Regular<span class="price">$4.50</span></p>
+                        <button onclick="addToCart('${itemName} - Regular', 4.50)">Add to Cart</button>
+                    </div>`;
+        } else if (itemName === 'Triple A' || itemName === 'Nutty Party' || itemName === 'Greek Physique' || itemName === 'Ch-Ch-Ch-Chia' ) {
+            sizes = `
+                <div class="menu-item">
+                    <p class="main-text">${itemName} - Small<span class="price">$6.90</span></p>
+                    <button onclick="addToCart('${itemName} - Small', 6.90)">Add to Cart</button>
+                </div>
+                <div class="menu-item">
+                    <p class="main-text">${itemName} - Medium<span class="price">$10.20</span></p>
+                    <button onclick="addToCart('${itemName} - Medium', 10.20)">Add to Cart</button>
+                </div>
+                <div class="menu-item">
+                    <p class="main-text">${itemName} - Large<span class="price">$15.80</span></p>
+                    <button onclick="addToCart('${itemName} - Large', 15.80)">Add to Cart</button>
+                </div>`;
+        } else if (itemName === 'Coco Glow' || itemName === 'Mango Tango' || itemName === 'Hoe For Avo' || itemName === 'Berried Alive') {
+            sizes = `
+                <div class="menu-item">
+                    <p class="main-text">${itemName} - Small<span class="price">$7.50</span></p>
+                    <button onclick="addToCart('${itemName} - Small', 7.50)">Add to Cart</button>
+                </div>
+                <div class="menu-item">
+                    <p class="main-text">${itemName} - Medium<span class="price">$10.80</span></p>
+                    <button onclick="addToCart('${itemName} - Medium', 10.80)">Add to Cart</button>
+                </div>
+                <div class="menu-item">
+                    <p class="main-text">${itemName} - Large<span class="price">$16.40</span></p>
+                    <button onclick="addToCart('${itemName} - Large', 16.40)">Add to Cart</button>
+                </div>`;
+        } else if  (itemName === 'Love Me Lychee' || itemName === 'Feeling Grape' || itemName === 'Drivin Me Nuts' || itemName === 'Berry Me Bliss') {
+            sizes = `
+                <div class="menu-item">
+                    <p class="main-text">${itemName} - Small<span class="price">$7.80</span></p>
+                    <button onclick="addToCart('${itemName} - Small', 7.80)">Add to Cart</button>
+                </div>
+                <div class="menu-item">
+                    <p class="main-text">${itemName} - Medium<span class="price">$11.10</span></p>
+                    <button onclick="addToCart('${itemName} - Medium', 11.10)">Add to Cart</button>
+                </div>
+                <div class="menu-item">
+                    <p class="main-text">${itemName} - Large<span class="price">$16.70</span></p>
+                    <button onclick="addToCart('${itemName} - Large', 16.70)">Add to Cart</button>
+                </div>`;
+
+        } else if (itemName === 'DIY Açaí'){
+                sizes =`
+                <div class="menu-item">
+                    <div class="menu-item">
+                        <p class="main-text">${itemName} - Small<span class="price">$7.40</span></p>
+                        <button onclick="selectOptions('${itemName} - Small', 7.40, 'small')">Select Options</button>
+                    </div>
+                    <div class="menu-item">
+                        <p class="main-text">${itemName} - Medium<span class="price">$10.80</span></p>
+                        <button onclick="selectOptions('${itemName} - Medium', 10.80, 'medium')">Select Options</button>
+                    </div>
+                    <div class="menu-item">
+                        <p class="main-text">${itemName} - Large<span class="price">$16.40</span></p>
+                        <button onclick="selectOptions('${itemName} - Large', 16.40, 'large')">Select Options</button>
+                    </div>
+                </div>`;
+
+        }
+        document.getElementById("menu-items").innerHTML = sizes;
+    }
+
+    // Function to open a popup for DIY Acai options
+    function selectOptions(itemName, basePrice, size) {
+        const popup = document.getElementById("popup-diy-acai");
+        if (popup) {
+            // Set the popup content dynamically
+            const popupContent = popup.querySelector(".popup-content");
+            popupContent.innerHTML = `
+                <span class="close" onclick="closePopupDIYAcai()">&times;</span>
+                <h2>Customize Your ${itemName}</h2>
+                ${generateBaseOptions('firstBase')}
+                ${generateBaseOptions('secondBase')}
+                ${generateFruitOptions(size)}
+                ${generateSuperfoodOptions(size)}
+                ${generateDrizzleOptions()}
+                <button onclick="addToCartWithOptions('${itemName}', ${basePrice}, '${size}')">Add to Cart</button>
+            `;
+            // Display the popup
+            popup.style.display = "block";
+        }
+    }
+    // Function to close the "selectOptions" popup
+    function closePopupDIYAcai() {
+        const popup = document.getElementById("popup-diy-acai");
+        if (popup) {
+            popup.style.display = "none";
+        }
+    }
+
+
+    function generateBaseOptions(baseName) {
+        const baseOptions = [
+            {name: 'açaí', price: 0.0},
+            {name: 'chia pudding', price: 0.40},
+            {name: 'yogurt', price: 0.40},
+            {name: 'coconut sorbet', price: 0.60},
+            {name: 'mango sorbet', price: 0.60},
+            {name: 'avocado coconut sorbet', price: 0.60},
+            {name: 'strawberry coconut sorbet', price: 0.60},
+            {name: 'blue pea lychee sorbet', price: 0.80},
+            {name: 'mixed berries sorbet', price: 0.80},
+            {name: 'chocolate peanut butter banana sorbet', price: 0.80},
+            {name: 'grape sorbet', price: 0.80}
+        ];
+
+        let optionsHTML = `<h3>Base Options</h3><ul>`;
+
+        baseOptions.forEach(option => {
+            optionsHTML += `
+                <li>
+                    <label>
+                        <input type="radio" name="${baseName}" value="${option.name}" data-price="${option.price}">${option.name}
+                    </label>
+                    <span>(+$${option.price.toFixed(2)})</span>
+                </li>`;
+        });
+
+        optionsHTML += `</ul>`;
+
+        return optionsHTML;
+    }
+
+    // Function to generate fruit options for DIY Acai
+    function generateFruitOptions(size) {
+        const maxFruits = size === 'small' ? 2 : size === 'medium' ? 3 : 5;
+        const fruitOptions = ['banana', 'strawberry', 'blueberry', 'kiwi', 'dragonfruit', 'pineapple'];
+
+        let optionsHTML = `<h3>Fruit (Select up to ${maxFruits})</h3><ul>`;
+
+        fruitOptions.forEach(fruit => {
+            optionsHTML += `
+                <li>
+                    <label>
+                        <input type="checkbox" name="fruit" value="${fruit}" onchange="limitSelection('fruit', ${maxFruits})">${fruit}
+                    </label>
+                </li>`;
+        });
+
+        optionsHTML += `</ul>`;
+
+        return optionsHTML;
+    }
+
+    // Function to generate superfood options for DIY Acai
+    function generateSuperfoodOptions(size) {
+        const maxSuperfoods = size === 'small' ? 2 : size === 'medium' ? 3 : 5;
+        const superfoodOptions = ['granola', 'almond flakes', 'pumpkin seeds', 'cacao nibs', 'chia seeds', 'coconut shavings', 'goji berries'];
+
+        let optionsHTML = `<h3>Superfoods (Select up to ${maxSuperfoods})</h3><ul>`;
+
+        superfoodOptions.forEach(superfood => {
+            optionsHTML += `
+                <li>
+                    <label>
+                        <input type="checkbox" name="superfood" value="${superfood}" onchange="limitSelection('superfood', ${maxSuperfoods})">${superfood}
+                    </label>
+                </li>`;
+        });
+
+        optionsHTML += `</ul>`;
+
+        return optionsHTML;
+    }
+
+    // Function to generate drizzle options for DIY Acai
+    function generateDrizzleOptions() {
+        const drizzleOptions = [
+            {name: 'honey', price: 0},
+            {name: 'cookie butter', price: 0},
+            {name: 'almond butter', price: 0},
+            {name: 'peanut butter', price: 0},
+            {name: 'cashew butter', price: 1}
+        ];
+
+        let optionsHTML = `<h3>Drizzle Options</h3>`;
+
+        drizzleOptions.forEach(option => {
+            optionsHTML += `
+                <li>
+                    <label>
+                        <input type="radio" name="drizzle" value="${option.name}" data-price="${option.price}">${option.name} ${option.price ? `(+ $${option.price.toFixed(2)})` : ''}
+                    </label>
+                </li>`;
+        });
+
+        return optionsHTML;
+    }
+    function addToCartWithOptions(itemName, basePrice, size) {
+        const selectedFirstBase = document.querySelector('input[name="firstBase"]:checked');
+        const selectedSecondBase = document.querySelector('input[name="secondBase"]:checked');
+        const selectedFruits = document.querySelectorAll('input[name="fruit"]:checked');
+        const selectedSuperfoods = document.querySelectorAll('input[name="superfood"]:checked');
+        const selectedDrizzle = document.querySelector('input[name="drizzle"]:checked');
+
+        if (!selectedFirstBase || !selectedSecondBase || selectedFruits.length === 0 || selectedSuperfoods.length === 0 || !selectedDrizzle) {
+            alert("Please select all required options.");
+            return;
+        }
+
+        let totalPrice = basePrice;
+
+        const selectedOptions = [];
+
+        // Add selected first base
+        totalPrice += parseFloat(selectedFirstBase.dataset.price);
+        selectedOptions.push(selectedFirstBase.value);
+
+        // Add selected second base
+        totalPrice += parseFloat(selectedSecondBase.dataset.price);
+        selectedOptions.push(selectedSecondBase.value);
+
+        // Add selected fruits
+        selectedFruits.forEach(fruit => {
+            totalPrice += parseFloat(fruit.dataset.price);
+            selectedOptions.push(fruit.value);
+        });
+
+        // Add selected superfoods
+        selectedSuperfoods.forEach(superfood => {
+            totalPrice += parseFloat(superfood.dataset.price);
+            selectedOptions.push(superfood.value);
+        });
+
+        // Add selected drizzle
+        totalPrice += parseFloat(selectedDrizzle.dataset.price);
+        selectedOptions.push(selectedDrizzle.value);
+
+        const customizedItem = {
+            name: itemName,
+            price: totalPrice.toFixed(2),
+            options: selectedOptions.join(', '),
+            size: size
+        };
+
+        // Add the customizedItem to the cart
+        cart.push(customizedItem);
+
+        // Optionally, update the cart UI
+        updateCartUI();
+
+        // Provide feedback to the user
+        alert(`Added ${customizedItem.name} to cart with options: ${customizedItem.options} for $${customizedItem.price}`);
+    }
+
+
+    // Function to add item to cart
+    function addToCart(itemName, price) {
+        // Check if the item is already in the cart
+        const existingItem = cart.find(item => item.name === itemName);
+
+        if (existingItem) {
+            // If the item exists, increase its quantity
+            existingItem.quantity++;
+        } else {
+            // If the item is not in the cart, add it with quantity 1
+            cart.push({ name: itemName, price: price, quantity: 1 });
+        }
+
+    updateCartCount();
+    displayNotification(itemName); // Call the displayNotification function here
+    }
+
+
+    // Function to update cart count
+    function updateCartCount() {
+        document.getElementById("cart-count").innerText = cart.length;
+    }
+
+    // Function to display cart items and total amount
+    function displayCart() {
+        let cartItems = '';
+        let totalAmount = 0;
+
+        cart.forEach(item => {
+            cartItems += `<div class="cart-item">
+                            <p>${item.name} x${item.quantity} <span class="price">$${(item.price * item.quantity).toFixed(2)}</span></p>
+                        </div>`;
+            totalAmount += item.price * item.quantity;
+        });
+
+        // Add total amount to the cart content
+        cartItems += `<div class="cart-item">
+                    <div class="total-amount">
+                        <p>Subtotal: <span class="price">$${totalAmount.toFixed(2)}</span></p>
+                    </div>`;
+
+        document.getElementById("cart-items").innerHTML = cartItems;
+    }
+
+    // Function to display notification
+    function displayNotification(itemName) {
+        // Create a notification element
+        const notification = document.createElement("div");
+        notification.classList.add("notification");
+        notification.innerText = `${itemName} added to cart`;
+
+        // Append the notification to the body
+        document.body.appendChild(notification);
+
+        // Remove the notification after a certain duration (e.g., 3 seconds)
+        setTimeout(() => {
+            notification.remove();
+        }, 3000); // Adjust the duration as needed
+    }
+
+    // Function to open the checkout popup
+    function openCheckout() {
+        document.getElementById("checkout-popup").style.display = "block";
+    }
+
+    // Function to close the checkout popup
+    function closeCheckout() {
+        document.getElementById("checkout-popup").style.display = "none";
+    }
+
+    // Function to handle payment processing
+    function processPayment(paymentMethod) {
+        // Implement payment processing logic based on the selected payment method
+        // For example, redirect to a payment gateway or display a confirmation message
+        alert(`Payment method selected: ${paymentMethod}`);
+        // You can also add further processing logic here, like clearing the cart after successful payment
+        clearCart();
+        closeCartPopup();
+        closeCheckout();
+    }
+
+    // Function to clear the cart after successful payment
+    function clearCart() {
+        cart = []; // Clear the cart array
+        updateCartCount(); // Update the cart count display
+        displayCart(); // Update the cart popup content
+    }
+
+</script>        
+</body>
+</html>
